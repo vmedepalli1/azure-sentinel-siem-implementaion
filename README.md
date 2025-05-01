@@ -1,4 +1,4 @@
-# Azure Sentinel Cloud Monitoring
+# Microsoft Sentinel Cloud Monitoring
 
 This project demonstrates how to build a cloud-native security monitoring solution using Microsoft Sentinel. It includes end-to-end setup of Sentinel, data connector integration (Azure AD, Azure Activity), creation of custom analytics rules, automation with playbooks, and KQL-based threat hunting.
 
