@@ -36,7 +36,7 @@ The goal is to provide a hands-on, reproducible framework for detecting and resp
 azure-sentinel-cloud-monitoring/
 │
 ├── README.md
-├── setup-guide.md               # Step-by-step instructions
+├── setup-guide.docx               # Step-by-step instructions
 ├── queries/                     # Hunting queries in KQL
 │   ├── multiple_failed_signins.kql
 │   └── ip_switch_signins.kql
