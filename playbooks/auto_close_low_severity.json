@@ -1,0 +1,48 @@
+{
+  "definition": {
+    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowDefinition.json#",
+    "actions": {
+      "Close_Incident": {
+        "inputs": {
+          "host": {
+            "connection": {
+              "name": "@parameters('$connections')['azureSentinel']['connectionId']"
+            }
+          },
+          "method": "post",
+          "path": "/Incidents/@{triggerOutputs()?['body/IncidentId']}/close",
+          "body": {
+            "status": "Closed",
+            "classification": "FalsePositive",
+            "classificationComment": "Closed automatically by playbook for low severity"
+          }
+        },
+        "runAfter": {},
+        "type": "ApiConnection"
+      }
+    },
+    "contentVersion": "1.0.0.0",
+    "outputs": {},
+    "triggers": {
+      "When_a_response_to_an_Azure_Sentinel_alert_is_triggered": {
+        "type": "Request",
+        "kind": "Http",
+        "inputs": {
+          "schema": {}
+        }
+      }
+    }
+  },
+  "kind": "Stateful",
+  "parameters": {
+    "$connections": {
+      "value": {
+        "azureSentinel": {
+          "connectionId": "/subscriptions/{subscription-id}/resourceGroups/{resource-group}/providers/Microsoft.Web/connections/azureSentinel",
+          "connectionName": "azureSentinel",
+          "id": "/subscriptions/{subscription-id}/providers/Microsoft.Web/locations/{region}/managedApis/azureSentinel"
+        }
+      }
+    }
+  }
+}
