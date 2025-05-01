@@ -1,0 +1,9 @@
+SigninLogs
+| where ResultType == 0
+| where isnotempty(IPAddress)
+| project UserPrincipalName, IPAddress, TimeGenerated
+| sort by UserPrincipalName asc, TimeGenerated asc
+| extend PrevIP = prev(IPAddress), PrevTime = prev(TimeGenerated), PrevUser = prev(UserPrincipalName)
+| where UserPrincipalName == PrevUser and IPAddress != PrevIP
+| extend TimeDiffMinutes = datetime_diff("Minute", TimeGenerated, PrevTime)
+| where TimeDiffMinutes <= 10

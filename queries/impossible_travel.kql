@@ -1,0 +1,17 @@
+let threshold = 5000; // kilometers
+SigninLogs
+| where ResultType == 0
+| where isnotempty(LocationDetails["geoCoordinates"]["latitude"]) and isnotempty(LocationDetails["geoCoordinates"]["longitude"])
+| extend Latitude = todouble(LocationDetails["geoCoordinates"]["latitude"]),
+         Longitude = todouble(LocationDetails["geoCoordinates"]["longitude"])
+| project UserPrincipalName, TimeGenerated, Latitude, Longitude, IPAddress
+| sort by UserPrincipalName asc, TimeGenerated asc
+| extend PrevLatitude = prev(Latitude),
+         PrevLongitude = prev(Longitude),
+         PrevTime = prev(TimeGenerated),
+         PrevUser = prev(UserPrincipalName)
+| where UserPrincipalName == PrevUser
+| extend Distance = geo_distance_2points(Latitude, Longitude, PrevLatitude, PrevLongitude),
+         TimeDiffMinutes = datetime_diff("Minute", TimeGenerated, PrevTime)
+| extend Speed = iif(TimeDiffMinutes > 0, Distance / (TimeDiffMinutes / 60.0), 0.0)
+| where Distance > threshold and TimeDiffMinutes < 60
