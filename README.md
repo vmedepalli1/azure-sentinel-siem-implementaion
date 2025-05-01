@@ -40,7 +40,7 @@ azure-sentinel-cloud-monitoring/
 ├── queries/                     # Hunting queries in KQL
 │   ├── multiple_failed_signins.kql
 │   └── ip_switch_signins.kql
-├── analytics-rules/            # configuring scheduled rules
+├── analytics-rules/            # usage of analytics rules
 └── playbooks/                  # Logic App JSON templates
 ```
 
